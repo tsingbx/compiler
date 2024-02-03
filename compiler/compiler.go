@@ -5,7 +5,9 @@ import (
 
 	"github.com/tsingbx/compiler/code"
 	"github.com/tsingbx/interpreter/ast"
+	"github.com/tsingbx/interpreter/lexer"
 	"github.com/tsingbx/interpreter/object"
+	"github.com/tsingbx/interpreter/parser"
 )
 
 type Compiler struct {
@@ -127,4 +129,10 @@ func (c *Compiler) addInstruction(ins []byte) int {
 	posNewInstruction := len(c.instructions)
 	c.instructions = append(c.instructions, ins...)
 	return posNewInstruction
+}
+
+func parse(input string) *ast.Program {
+	l := lexer.New(input)
+	p := parser.New(l)
+	return p.ParseProgram()
 }
