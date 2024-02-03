@@ -75,5 +75,9 @@ func testExpectedObject(
 		if err != nil {
 			t.Errorf("testBooleanObject failed: %s", err)
 		}
+	case *object.Null:
+		if actual != Null {
+			t.Errorf("object is not Null: %T (%+v)", actual, actual)
+		}
 	}
 }
