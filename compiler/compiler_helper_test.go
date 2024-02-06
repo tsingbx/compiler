@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/tsingbx/compiler/code"
+	myObject "github.com/tsingbx/compiler/object"
 	"github.com/tsingbx/interpreter/object"
 )
 
@@ -93,6 +94,17 @@ func testConstants(
 			err := testStringObject(constant, actual[i])
 			if err != nil {
 				return fmt.Errorf("constant %d - testStringObject failed: %s",
+					i, err)
+			}
+		case []code.Instructions:
+			fn, ok := actual[i].(*myObject.CompiledFunction)
+			if !ok {
+				return fmt.Errorf("constant %d - not a function: %T",
+					i, actual[i])
+			}
+			err := testInstructions(constant, fn.Instructions)
+			if err != nil {
+				return fmt.Errorf("constant %d - testInstructions failed: %s",
 					i, err)
 			}
 		}
